@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "libgeom.h"
+#include <libgeom.h>
 #include <stdlib.h>
 #define SQR(x) x*x
 
