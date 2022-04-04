@@ -1,8 +1,11 @@
-all:geom.c
-
-geom.c:
-	gcc -Wall -Werror -o 1 geom.c
-run:
-	./1
+all: main
+main:
+	gcc -Wall -o main src/*.c -lm
 clean:
-	rm 1
+	rm main
+run:
+	./main
+debug:
+	rm main
+	gcc -Wall -o main src/*.c -lm -g
+	gdb main
