@@ -25,5 +25,7 @@ $(LIB_NAME).o:
 run:
 	./$(BIN_DIR)/$(APP_NAME)
 
+.PHONY: clean
+
 clean:
 	rm $(BIN_DIR)/$(APP_NAME)
