@@ -1,30 +1,27 @@
 #ifndef GEOM
 #define GEOM
 
-typedef struct
-{
+typedef struct {
     double x, y;
-}Point;
+} Point;
 
-typedef struct
-{
+typedef struct {
     Point p[4];
     double squre;
     double perimetr;
-}Triangle;
+} Triangle;
 
-typedef struct
-{
+typedef struct {
     Point center;
     double radius;
     double squre;
     double perimetr;
-}Circle;
+} Circle;
 
 int init(int numberOf);
 int figure_check(char a[], char b[]);
 int converter(char input[], int len, int countStart, int answer_point);
-Triangle *format_triangle(Triangle *tr);
-Circle *format_circle(Circle *cir);
+Triangle* format_triangle(Triangle* tr);
+Circle* format_circle(Circle* cir);
 
 #endif
