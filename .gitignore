@@ -1,6 +1,5 @@
 *.o
 *.a
-*.c
+bin/geom
+bin/geomtest
 *.d
-main
-geom
