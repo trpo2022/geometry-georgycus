@@ -18,14 +18,13 @@ typedef struct {
 int init(int numberOf);
 int figure_check(char a[], char b[]);
 int converter(char input[], int len, int countStart, int answer_point);
-Figure format_figure(Figure *fig);
-double s_n(Figure *fig, int n);
-int figure_intersection(Figure *fig, Figure *fig2);
+Figure format_figure(Figure* fig);
+double s_n(Figure* fig, int n);
+int figure_intersection(Figure* fig, Figure* fig2);
 void intersection_output();
 int tri_cir_intersection(Figure* fig, Figure* fig2);
 
 int figure_num;
 Figure fig_obj[4];
-
 
 #endif

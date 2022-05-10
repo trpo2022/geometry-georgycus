@@ -1,9 +1,9 @@
-#include <libgeom.h>
 #include <ctest.h>
+#include <libgeom.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define SQR(x) (x)* (x)
+#define SQR(x) (x) * (x)
 
 CTEST(geometry_suite, check_triangle_perimeter)
 {
@@ -90,7 +90,7 @@ CTEST(geometry_suite, check_circle_intersection)
     fig_obj_test2.center.y = 0;
     fig_obj_test.radius = 5;
     fig_obj_test2.radius = 5;
-    
+
     const double expect = 1;
     double res = figure_intersection(&fig_obj_test, &fig_obj_test2);
     ASSERT_EQUAL(expect, res);
