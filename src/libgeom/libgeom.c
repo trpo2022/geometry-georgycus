@@ -2,15 +2,18 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define SQR(x) x* x
+#define SQR(x) (x)* (x)
 
 int init(int numberOf)
 {
+    extern int figure_num;
+    figure_num = numberOf;
     char circleEx[7] = {"circle"};
     char triangleEx[9] = {"triangle"};
     char input[50] = {'0'};
     int len = 0;
     int countStart = 0;
+    extern Figure fig_obj[4];
     printf("Enter %d figure\nexample: triangle(x1 y1, x2 y2, x3 y3, x4 y4), "
            "circle(x1 y2, radius)\n",
            numberOf);
@@ -22,15 +25,22 @@ int init(int numberOf)
     }
     input[len] = '\0';
 
-    if ((input[0] == circleEx[0]) || (input[0] == circleEx[0] - ' ')) {
-        if (figure_check(input, circleEx) == 0) {
+    if ((input[0] == circleEx[0]) || (input[0] == circleEx[0] - ' '))
+    {
+        if (figure_check(input, circleEx) == 0) 
+        {
+            fig_obj[numberOf].type = 0;
             if (converter(input, len, countStart, 1) == 0)
                 return 100;
         }
 
     } else if (
-            (input[0] == triangleEx[0]) || (input[0] == triangleEx[0] - ' ')) {
-        if (figure_check(input, triangleEx) == 0) {
+            (input[0] == triangleEx[0]) || (input[0] == triangleEx[0] - ' ')) 
+            {
+                
+        if (figure_check(input, triangleEx) == 0) 
+        {
+            fig_obj[numberOf].type = 1;
             if (converter(input, len, countStart, 2) == 0)
                 return 100;
         }
@@ -72,10 +82,7 @@ int converter(char input[], int len, int countStart, int answer_point)
         printf("Expected )");
         return 0;
     }
-
     char converter[20];
-    Circle cir_obj;
-    Triangle tr_obj;
     int answer = 0;
 
     if (answer_point == 1) {
@@ -100,13 +107,13 @@ int converter(char input[], int len, int countStart, int answer_point)
                 }
             }
             if (answer == 1) {
-                cir_obj.center.x = atof(converter);
+                fig_obj[figure_num].center.x = atof(converter);
             }
             if (answer == 2) {
-                cir_obj.center.y = atof(converter);
+                fig_obj[figure_num].center.y = atof(converter);
             }
             if (answer == 3) {
-                cir_obj.radius = atof(converter);
+                fig_obj[figure_num].radius = atof(converter);
             }
         }
     }
@@ -134,35 +141,35 @@ int converter(char input[], int len, int countStart, int answer_point)
             }
             switch (answer) {
             case 1:
-                tr_obj.p[0].x = atof(converter);
+                fig_obj[figure_num].p[0].x = atof(converter);
                 break;
 
             case 2:
-                tr_obj.p[0].y = atof(converter);
+                fig_obj[figure_num].p[0].y = atof(converter);
                 break;
 
             case 3:
-                tr_obj.p[1].x = atof(converter);
+                fig_obj[figure_num].p[1].x = atof(converter);
                 break;
 
             case 4:
-                tr_obj.p[1].y = atof(converter);
+                fig_obj[figure_num].p[1].y = atof(converter);
                 break;
 
             case 5:
-                tr_obj.p[2].x = atof(converter);
+                fig_obj[figure_num].p[2].x = atof(converter);
                 break;
 
             case 6:
-                tr_obj.p[2].y = atof(converter);
+                fig_obj[figure_num].p[2].y = atof(converter);
                 break;
 
             case 7:
-                tr_obj.p[3].x = atof(converter);
+                fig_obj[figure_num].p[3].x = atof(converter);
                 break;
 
             case 8:
-                tr_obj.p[3].y = atof(converter);
+                fig_obj[figure_num].p[3].y = atof(converter);
                 break;
             }
         }
@@ -170,16 +177,17 @@ int converter(char input[], int len, int countStart, int answer_point)
 
     if (answer_point == 1) {
         printf("Circle's x = %.2lf, y = %.2lf\n",
-               cir_obj.center.x,
-               cir_obj.center.y);
-        printf("Circle's radius = %.2lf\n", cir_obj.radius);
+               fig_obj[figure_num].center.x,
+               fig_obj[figure_num].center.y);
+        printf("Circle's radius = %.2lf\n", fig_obj[figure_num].radius);
+        fig_obj[figure_num] = format_figure(&fig_obj[figure_num]);
         printf("Perimeter of circle = %lf\n",
-               format_circle(&cir_obj)->perimetr);
-        printf("Square of circle = %lf\n", format_circle(&cir_obj)->squre);
+               fig_obj[figure_num].perimetr);
+        printf("Square of circle = %lf\n", fig_obj[figure_num].squre);
     }
     if (answer_point == 2) {
-        if ((tr_obj.p[0].x != tr_obj.p[3].x)
-            && (tr_obj.p[0].y != tr_obj.p[3].y)) {
+        if ((fig_obj[figure_num].p[0].x != fig_obj[figure_num].p[3].x)
+            && (fig_obj[figure_num].p[0].y != fig_obj[figure_num].p[3].y)) {
             printf("First and last coordinate can't be different!\n");
             return -1;
         }
@@ -187,36 +195,263 @@ int converter(char input[], int len, int countStart, int answer_point)
         for (int k = 0; k < 4; k++) {
             printf("Triangle's x%d = %.2lf, y%d = %.2lf\n",
                    k + 1,
-                   tr_obj.p[k].x,
+                   fig_obj[figure_num].p[k].x,
                    k + 1,
-                   tr_obj.p[k].y);
+                   fig_obj[figure_num].p[k].y);
         }
-        printf("Perimeter of triangle = %.2lf\n",
-               format_triangle(&tr_obj)->perimetr);
-        printf("Square of circle = %lf\n", format_triangle(&tr_obj)->squre);
+        fig_obj[figure_num] = format_figure(&fig_obj[figure_num]);
+        if(fig_obj[figure_num].perimetr && fig_obj[figure_num].squre)
+        {
+            printf("Perimeter of triangle = %.2lf\n", fig_obj[figure_num].perimetr);
+            printf("Square of triangle = %lf\n", fig_obj[figure_num].squre);
+        }
     }
+    intersection_output();
     return 0;
 }
 
-Triangle* format_triangle(Triangle* tr)
+Figure format_figure(Figure* fig)
 {
-    double first_side = sqrt(
-            SQR((tr->p[1].x - tr->p[0].x)) + SQR((tr->p[1].y - tr->p[0].y)));
-    double second_side = sqrt(
-            SQR((tr->p[2].x - tr->p[1].x)) + SQR((tr->p[2].y - tr->p[1].y)));
-    double third_side = sqrt(
-            SQR((tr->p[3].x - tr->p[2].x)) + SQR((tr->p[3].y - tr->p[2].y)));
-    tr->perimetr = first_side + second_side + third_side;
-    double halfp = tr->perimetr / 2;
-    tr->squre
-            = sqrt(halfp * (halfp - first_side) * (halfp - second_side)
-                   * (halfp - third_side));
-    return tr;
+   
+    if(fig->type == 1)
+    {
+        double first_side = sqrt(
+                SQR((fig->p[1].x - fig->p[0].x)) + SQR((fig->p[1].y - fig->p[0].y)));
+        double second_side = sqrt(
+                SQR((fig->p[2].x - fig->p[1].x)) + SQR((fig->p[2].y - fig->p[1].y)));
+        double third_side = sqrt(
+                SQR((fig->p[3].x - fig->p[2].x)) + SQR((fig->p[3].y - fig->p[2].y)));
+        if((first_side < second_side + third_side) && (second_side < first_side + third_side) && (third_side < second_side + first_side))
+        {
+        fig->perimetr = first_side + second_side + third_side;
+        double halfp = fig->perimetr / 2;
+        fig->squre = sqrt(halfp * (halfp - first_side) * (halfp - second_side)
+                    * (halfp - third_side));
+        return *fig;
+        
+        }
+        else
+        {
+            printf("Non-degenerate triangle!\n");
+        }
+    }
+    if(fig->type == 0)
+    {
+        fig->squre = M_PI * SQR(fig->radius);
+        fig->perimetr = 2 * M_PI * fig->radius;
+        return *fig;
+    }
+    return *fig;
 }
 
-Circle* format_circle(Circle* cir)
+void intersection_output()
 {
-    cir->squre = M_PI * SQR(cir->radius);
-    cir->perimetr = 2 * M_PI * cir->radius;
-    return cir;
+     if(((fig_obj[1].squre>0) && fig_obj[2].squre>0) && (fig_obj[3].squre>0))
+    {
+        if((fig_obj[1].squre>0) && fig_obj[2].squre>0)
+        {
+            if (figure_intersection(&fig_obj[1], &fig_obj[2]) == 1)
+            {
+                fig_obj[1].intersect[2] = 1;
+                fig_obj[2].intersect[1] = 1; 
+            }
+        }
+        
+        if((fig_obj[2].squre>0) && fig_obj[3].squre>0)
+        {    
+            if (figure_intersection(&fig_obj[2], &fig_obj[3]) == 1)
+            {
+                fig_obj[2].intersect[3] = 1;
+                fig_obj[3].intersect[2] = 1; 
+            }
+        }
+
+        if((fig_obj[1].squre>0) && fig_obj[3].squre>0)
+            if (figure_intersection(&fig_obj[1], &fig_obj[3]) == 1)
+        {
+            {
+                fig_obj[1].intersect[3] = 1;
+                fig_obj[3].intersect[1] = 1; 
+            }
+        }
+        printf("\n");
+        for(int i = 1; i<4; i++)
+        {
+            printf("Figure №%d intersections:\n", i);
+            for(int j = 0; j<4; j++)
+            {
+                if(fig_obj[i].intersect[j] == 1)
+                {
+                    printf("figure №%d\n", j);
+                }
+                
+            }
+            printf("\n");
+        }
+    }
+}
+
+void swap(double *xp, double *yp)
+{
+    double temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+int figure_intersection(Figure *fig, Figure *fig2)
+{
+    if((fig->type == 0) && (fig2->type == 0))
+    {
+        double d = (fig->center.x - fig2->center.x) * (fig->center.x - fig2->center.x)
+         + (fig->center.y - fig2->center.y) * (fig->center.y - fig2->center.y);
+   
+        if ( d <= (fig->radius + fig2->radius) * (fig->radius + fig2->radius) && d 
+        >= (fig->radius > fig2->radius ? fig->radius - fig2->radius : fig2->radius - fig->radius))
+            return 1;
+        else
+            return 0;;
+    }
+
+    if((fig->type == 1) && (fig2->type == 1))
+    {
+    
+    const double EPS = 1e-10;
+    
+    double sa = s_n(fig, 3);
+    
+    int flag = 0;
+    for (int i = 0; i < 3; ++i)
+    {    
+        double sum = 0;
+        for (int j = 0; j < 3; ++j)
+        {
+            Figure c;
+            for (int k = 0; k < 3; ++k)
+                if (k == j)
+                    c.p[k] = fig->p[i];
+                else
+                    c.p[k] = fig2->p[k];
+            
+            double sc = s_n(&c, 3);
+            
+            sum += sc;
+        }
+        
+        if (fabs(sa - sum) < EPS)
+        {
+            flag = 1;
+            break;
+        }
+    }
+    return flag;
+    }
+
+    if(((fig->type == 0) && (fig2->type == 1)) || ((fig->type == 1) && (fig2->type == 0)))
+    {
+        
+        if(fig->type == 0)
+        {
+        return tri_cir_intersection(fig, fig2);
+        }
+        if(fig->type == 1)
+        return tri_cir_intersection(fig2, fig);
+    }
+    return 0;
+}
+double s_n(Figure *fig, int n)
+{
+    double sum = 0;
+    for (int i = 0; i < n; ++i){
+        double det = fig->p[i % n].x * fig->p[(i + 1) % n].y - fig->p[(i + 1) % n].x * fig->p[i % n].y;
+        sum += det;
+    }
+    return fabs(sum / 2);
+}
+int tri_cir_intersection(Figure* fig, Figure* fig2)
+{
+    const double eps = 1e-10;
+    double x0 = fig->center.x;
+    double y0 = fig->center.y;
+    double r = fig->radius;
+    double x1, x2, y1, y2;
+    int track = 0;
+    for(int i = 0; i<3; i++)
+    {
+        x1 = fig2->p[i].x;
+        y1 = fig2->p[i].y;
+        x2 = fig2->p[i+1].x;
+        y2 = fig2->p[i+1].y;
+    
+        double dx01 = x1 - x0, dy01 = y1 - y0, dx12 = x2 - x1, dy12 = y2 - y1;
+        double a = SQR(dx12) + SQR(dy12);
+        if (fabs(a) < eps)
+        {
+            printf("Начало и конец отрезка совпадают!\n");
+            return 0;
+        }
+        double k = dx01 * dx12 + dy01 * dy12;
+        double c = SQR(dx01) + SQR(dy01) - SQR(r);
+        double d1 = SQR(k) - a * c;
+        if (d1<0)
+            printf("Прямая не пересекается с окружностью - отрезок снаружи\n");
+        else if (fabs(d1) < eps)
+        {
+            double t = -k / a;
+            track++;
+            printf("Прямая касается окружности в точке\n");
+            if (t > 0 - eps && t < 1 + eps)
+            {
+                track++;
+                printf("Отрезок снаружи, имеет общую точку с окружностью\n"); 
+            }     
+            else
+            {
+                printf("Отрезок строго снаружи\n");
+            }
+        }
+        else
+        {
+            double t1 = (-k + sqrt(d1)) / a, t2 = (-k - sqrt(d1)) / a;
+            if (t1 > t2)
+                swap(&t1, &t2);
+
+            printf("Прямая пересекает окружность в двух точках\n");
+                
+            if (t1 >= 0 - eps && t2 <= 1 + eps)
+            {
+                if (t1 > 0 - eps && t2 < 1 + eps)
+                {
+                    track++;
+                    printf("Отрезок строго внутри\n");
+                }
+                else
+                {
+                    printf("Отрезок внутри, имеет  как минимум одну общую точку с окружностью\n");
+                    track++;
+                }
+            }
+                
+            else if ((t2 <= 0 + eps)||(t1 >= 1 - eps))
+            {
+                if (!(t2 < 0 + eps || t1 > 1 - eps))
+                {
+                    track++;
+                    printf("Отрезок строго снаружи\n");
+                }
+                else
+                {
+                    track++;
+                    printf("Отрезок снаружи, имеет общую точку с окружностью\n");
+                }
+
+            }
+            else
+            {
+                track++;
+                printf("Отрезок пересекает окружность в двух точках\n");
+            }
+        }
+    }
+    if (track > 0) return 1;
+    return 0;
 }

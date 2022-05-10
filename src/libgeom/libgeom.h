@@ -7,21 +7,25 @@ typedef struct {
 
 typedef struct {
     Point p[4];
-    double squre;
-    double perimetr;
-} Triangle;
-
-typedef struct {
     Point center;
     double radius;
     double squre;
     double perimetr;
-} Circle;
+    int type;
+    int intersect[4];
+} Figure;
 
 int init(int numberOf);
 int figure_check(char a[], char b[]);
 int converter(char input[], int len, int countStart, int answer_point);
-Triangle* format_triangle(Triangle* tr);
-Circle* format_circle(Circle* cir);
+Figure format_figure(Figure *fig);
+double s_n(Figure *fig, int n);
+int figure_intersection(Figure *fig, Figure *fig2);
+void intersection_output();
+int tri_cir_intersection(Figure* fig, Figure* fig2);
+
+int figure_num;
+Figure fig_obj[4];
+
 
 #endif
