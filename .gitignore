@@ -1,0 +1,5 @@
+*.o
+*.a
+bin/geom
+bin/geomtest
+*.d
