@@ -23,7 +23,15 @@ double s_n(Figure* fig, int n);
 int figure_intersection(Figure* fig, Figure* fig2);
 void intersection_output();
 int tri_cir_intersection(Figure* fig, Figure* fig2);
-int cross_segment(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+int cross_segment(
+        double x1,
+        double y1,
+        double x2,
+        double y2,
+        double x3,
+        double y3,
+        double x4,
+        double y4);
 
 int figure_num;
 Figure fig_obj[4];

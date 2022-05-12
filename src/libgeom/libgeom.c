@@ -300,19 +300,23 @@ int figure_intersection(Figure* fig, Figure* fig2)
         ;
     }
 
-    if ((fig->type == 1) && (fig2->type == 1))
-    {
+    if ((fig->type == 1) && (fig2->type == 1)) {
         int ff = 0;
-        for (int i = 0; i < 3; i++) 
-        {
-            for (int j = 0; j < 3; j++) 
-            {
-                ff = cross_segment(fig->p[i].x, fig->p[i].y, fig->p[i + 1].x, fig->p[i + 1]. y,   fig2->p[j].x, fig2->p[j].y, fig2->p[j + 1].x, fig2->p[j + 1]. y);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                ff = cross_segment(
+                        fig->p[i].x,
+                        fig->p[i].y,
+                        fig->p[i + 1].x,
+                        fig->p[i + 1].y,
+                        fig2->p[j].x,
+                        fig2->p[j].y,
+                        fig2->p[j + 1].x,
+                        fig2->p[j + 1].y);
                 printf("%d\n", ff);
             }
         }
-        if (ff) 
-        {
+        if (ff) {
             return 1;
         }
         return 0;
@@ -411,23 +415,33 @@ int tri_cir_intersection(Figure* fig, Figure* fig2)
         return 1;
     return 0;
 }
-int cross_segment(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+int cross_segment(
+        double x1,
+        double y1,
+        double x2,
+        double y2,
+        double x3,
+        double y3,
+        double x4,
+        double y4)
 {
-    double denum=(y4-y3)*(x1-x2)-(x4-x3)*(y1-y2);
+    double denum = (y4 - y3) * (x1 - x2) - (x4 - x3) * (y1 - y2);
     int ff = 0;
     if (denum == 0) {
-        if ( (x1*y2-x2*y1)*(x4-x3) - (x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
+        if ((x1 * y2 - x2 * y1) * (x4 - x3) - (x3 * y4 - x4 * y3) * (x2 - x1)
+                    == 0
+            && (x1 * y2 - x2 * y1) * (y4 - y3) - (x3 * y4 - x4 * y3) * (y2 - y1)
+                    == 0)
             ff = 1;
-        else 
+        else
             ff = 0;
-    }
-    else{
-        double num_a=(x4-x2)*(y4-y3)-(x4-x3)*(y4-y2);
-        double num_b=(x1-x2)*(y4-y2)-(x4-x2)*(y1-y2);
-        double Ua=num_a/denum;
-        double Ub=num_b/denum;
+    } else {
+        double num_a = (x4 - x2) * (y4 - y3) - (x4 - x3) * (y4 - y2);
+        double num_b = (x1 - x2) * (y4 - y2) - (x4 - x2) * (y1 - y2);
+        double Ua = num_a / denum;
+        double Ub = num_b / denum;
 
-        ff = (Ua >=0 && Ua <=1 && Ub >=0 && Ub <=1 ? 1 : 0);
+        ff = (Ua >= 0 && Ua <= 1 && Ub >= 0 && Ub <= 1 ? 1 : 0);
     }
     return ff;
 }
