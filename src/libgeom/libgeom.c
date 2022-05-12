@@ -300,33 +300,22 @@ int figure_intersection(Figure* fig, Figure* fig2)
         ;
     }
 
-    if ((fig->type == 1) && (fig2->type == 1)) {
-        const double EPS = 1e-10;
-
-        double sa = s_n(fig, 3);
-
-        int flag = 0;
-        for (int i = 0; i < 3; ++i) {
-            double sum = 0;
-            for (int j = 0; j < 3; ++j) {
-                Figure c;
-                for (int k = 0; k < 3; ++k)
-                    if (k == j)
-                        c.p[k] = fig->p[i];
-                    else
-                        c.p[k] = fig2->p[k];
-
-                double sc = s_n(&c, 3);
-
-                sum += sc;
-            }
-
-            if (fabs(sa - sum) < EPS) {
-                flag = 1;
-                break;
+    if ((fig->type == 1) && (fig2->type == 1))
+    {
+        int ff = 0;
+        for (int i = 0; i < 3; i++) 
+        {
+            for (int j = 0; j < 3; j++) 
+            {
+                ff = cross_segment(fig->p[i].x, fig->p[i].y, fig->p[i + 1].x, fig->p[i + 1]. y,   fig2->p[j].x, fig2->p[j].y, fig2->p[j + 1].x, fig2->p[j + 1]. y);
+                printf("%d\n", ff);
             }
         }
-        return flag;
+        if (ff) 
+        {
+            return 1;
+        }
+        return 0;
     }
 
     if (((fig->type == 0) && (fig2->type == 1))
@@ -421,4 +410,24 @@ int tri_cir_intersection(Figure* fig, Figure* fig2)
     if (track > 0)
         return 1;
     return 0;
+}
+int cross_segment(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+{
+    double denum=(y4-y3)*(x1-x2)-(x4-x3)*(y1-y2);
+    int ff = 0;
+    if (denum == 0) {
+        if ( (x1*y2-x2*y1)*(x4-x3) - (x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
+            ff = 1;
+        else 
+            ff = 0;
+    }
+    else{
+        double num_a=(x4-x2)*(y4-y3)-(x4-x3)*(y4-y2);
+        double num_b=(x1-x2)*(y4-y2)-(x4-x2)*(y1-y2);
+        double Ua=num_a/denum;
+        double Ub=num_b/denum;
+
+        ff = (Ua >=0 && Ua <=1 && Ub >=0 && Ub <=1 ? 1 : 0);
+    }
+    return ff;
 }
